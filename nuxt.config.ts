@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   // app: {
   //   baseURL: process.env.NODE_ENV === "production" ? "/hookahly-talks/" : "/",
   // },
+  ssr: false,
   compatibilityDate: "2024-11-01",
   devtools: { enabled: false },
   modules: ["@vite-pwa/nuxt"],
