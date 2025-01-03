@@ -1,16 +1,19 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    baseURL: process.env.NUXT_APP_BASE_URL || "/",
+  },
   compatibilityDate: "2024-11-01",
   devtools: { enabled: false },
   modules: ["@vite-pwa/nuxt"],
-  css: ['normalize.css/normalize.css'],
+  css: ["normalize.css/normalize.css"],
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "~/assets/styles/_colors.scss" as *;'
-        }
-      }
-    }
-  }
+          additionalData: '@use "~/assets/styles/_colors.scss" as *;',
+        },
+      },
+    },
+  },
 });

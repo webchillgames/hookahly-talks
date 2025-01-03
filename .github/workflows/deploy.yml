@@ -1,0 +1,40 @@
+# https://github.com/actions/deploy-pages#usage
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      # Установка зависимостей
+      - run: npm install
+      # Сборка проекта с указанием NUXT_APP_BASE_URL
+      - run: NUXT_APP_BASE_URL="/hookahly-talks/" npx nuxt build --preset github_pages
+      # Загрузка собранных файлов для деплоя
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./.output/public
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write # разрешение на деплой в Pages
+      id-token: write # подтверждение источника деплоя
+    environment:
+      name: github_pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
